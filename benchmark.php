@@ -10,18 +10,18 @@ class benchmark extends \PMVC\PlugIn
     public function init()
     {
         $this->setDefaultAlias(new wristwatch());
-        \PMVC\call_plugin(
-            'dispatcher',
-            'attach',
-            array(
-                $this,
-                \PMVC\Event\FINSH
-            )
-        );
+        \PMVC\plug('dispatcher')->attach($this,\PMVC\Event\FINISH);
+        \PMVC\plug('dispatcher')->attach($this,\PMVC\Event\B4_PROCESS_VIEW);
     }
 
-    public function tag($s=null){
+    public function tag($s=null)
+    {
         $this->SetFlag($s);
+    }
+
+    public function onB4ProcessView()
+    {
+        $this->tag('b4 process view');
     }
 
     public function onFinish()
