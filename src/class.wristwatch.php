@@ -15,10 +15,6 @@ class WRISTWATCH{
         $this->SetFlag('end');	
     }
 
-    function Read(){
-        echo "<code>".$this->GetSec()." sec</code>";
-    }
-
     function GetSec(){
         return $this->time['end']-$this->time['start'];
     }
@@ -37,29 +33,31 @@ class WRISTWATCH{
             $this->End();
         }
         asort($this->time);
-        $html='';
         $all=0;
-        $html.= "<tr><th>Flag Position</th><th>Time Taken</th><th>Time Difference</th></tr>\n";
+        $data = [[
+            'Flag Positio',
+            'Time Taken',
+            'Time Difference'
+        ]];
         $before = current( $this->time );
         foreach( $this->time as $flag=>$time ){
             $timeDiff = round($time - $before,4);
             if($timeDiff>0){
                 $all+=$timeDiff;
             }
-            $html.= "<tr><td><code>$flag</code></td>
-                <td><code>$time</code></td>
-                <td><code>".$timeDiff."</code></td>
-                </tr>\n";
+            $data[] = [
+                $flag,
+                $time,
+                $timeDiff
+            ];
             $before = $time;
         }
-        $html= '
-            <table border="1">
-            '.$html.'
-            <tr><td>Total</td><td>&#160;</td><td><code>'.round($all,4).'</code></td></tr>
-            </table>
-            ';
-        echo $html;
+        $data[] = [
+            'Total',
+            '',
+            round($all,4)
+        ];
+        return $data;
     }
 }
 
-?>

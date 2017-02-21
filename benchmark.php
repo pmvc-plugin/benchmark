@@ -5,13 +5,19 @@ namespace PMVC\PlugIn\benchmark;
 
 ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\benchmark';
 
+use \PMVC\Event;
+
 class benchmark extends \PMVC\PlugIn
 {
     public function init()
     {
         $this->setDefaultAlias(new wristwatch());
-        \PMVC\plug('dispatcher')->attach($this,\PMVC\Event\FINISH);
-        \PMVC\plug('dispatcher')->attach($this,\PMVC\Event\B4_PROCESS_VIEW);
+        $dispatcher = \PMVC\plug('dispatcher');
+        $dispatcher->attach($this,Event\B4_PROCESS_VIEW);
+        $dispatcher->attach($this,Event\FINISH);
+        \PMVC\dev(function(){
+            $this->start();
+        },'benchmark');
     }
 
     public function tag($s=null)
@@ -26,7 +32,9 @@ class benchmark extends \PMVC\PlugIn
 
     public function onFinish()
     {
-        $this->ReadFlags();
+        \PMVC\dev(function(){
+            return $this->ReadFlags();
+        },'benchmark');
     }
 
 }
