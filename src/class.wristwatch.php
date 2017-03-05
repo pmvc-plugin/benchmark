@@ -8,22 +8,21 @@ class WRISTWATCH{
     }
 
     function Start(){
-        $this->SetFlag('start');	
+        $this->tag('start');	
     }
 
     function End(){
-        $this->SetFlag('end');	
+        $this->tag('end');	
     }
 
     function GetSec(){
         return $this->time['end']-$this->time['start'];
     }
 
-    function SetFlag($flag = ""){
-        if( $flag ){
+    function tag ( $flag = null ) {
+        if ( $flag ) {
             $this->time[$flag] = WRISTWATCH::GetMicrotime();
-        }
-        else{
+        } else {
             $this->time[] = WRISTWATCH::GetMicrotime();
         }
     }

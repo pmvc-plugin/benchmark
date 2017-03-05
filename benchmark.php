@@ -20,11 +20,6 @@ class benchmark extends \PMVC\PlugIn
         },'benchmark');
     }
 
-    public function tag($s=null)
-    {
-        $this->SetFlag($s);
-    }
-
     public function onB4ProcessView()
     {
         $this->tag('b4 process view');
