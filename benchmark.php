@@ -12,11 +12,18 @@ class benchmark extends \PMVC\PlugIn
     public function init()
     {
         $this->setDefaultAlias(new wristwatch());
+        $this->start();
         $dispatcher = \PMVC\plug('dispatcher');
-        $dispatcher->attach($this,Event\B4_PROCESS_VIEW);
-        $dispatcher->attach($this,Event\FINISH);
+        $dispatcher->attachAfter($this,Event\MAP_REQUEST);
+    }
+
+    public function onMapRequest()
+    {
         \PMVC\dev(function(){
-            $this->start();
+            $dispatcher = \PMVC\plug('dispatcher');
+            $dispatcher->attach($this,Event\B4_PROCESS_VIEW);
+            $dispatcher->attach($this,Event\FINISH);
+            $this->tag('Get user request');
         },'benchmark');
     }
 
