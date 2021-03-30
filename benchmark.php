@@ -21,15 +21,15 @@ class benchmark extends \PMVC\PlugIn
     {
         \PMVC\dev(function(){
             $dispatcher = \PMVC\plug('dispatcher');
-            $dispatcher->attach($this,Event\B4_PROCESS_VIEW);
+            $dispatcher->attach($this,Event\WILL_PROCESS_VIEW);
             $dispatcher->attach($this,Event\FINISH);
             $this->tag('Get user request');
         },'benchmark');
     }
 
-    public function onB4ProcessView()
+    public function onWillProcessView()
     {
-        $this->tag('b4 process view');
+        $this->tag('Will process view');
     }
 
     public function onFinish()
